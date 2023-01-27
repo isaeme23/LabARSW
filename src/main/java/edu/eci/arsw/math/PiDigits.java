@@ -11,21 +11,10 @@ import edu.eci.arsw.bbp.PiThread;
 public class PiDigits {
 
     public static int maxValue = 10;
-    /**
-     * Returns a range of hexadecimal digits of pi.
-     * @param start The starting location of the range.
-     * @param count The number of digits to return
-     * @return An array containing the hexadecimal digits.
-     */
-    public static void getDigits(int n) {
-        int div = maxValue/n;
-        int init = 0;
-        for (int i = 0; n > i; i++){
-            PiThread threadP = new PiThread();
-            threadP.setAB(init, div);
-            threadP.setPosition(i);
-            init+=div;
-            threadP.start();
-        }
+
+    public static void main(String[] args) {
+        PiThread threadP = new PiThread();
+        threadP.setAB(2, 1);
+        threadP.start();
     }
 }
