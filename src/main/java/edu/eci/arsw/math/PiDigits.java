@@ -2,6 +2,8 @@ package edu.eci.arsw.math;
 
 import edu.eci.arsw.bbp.PiThread;
 
+import java.util.ArrayList;
+
 ///  <summary>
 ///  An implementation of the Bailey-Borwein-Plouffe formula for calculating hexadecimal
 ///  digits of pi.
@@ -10,24 +12,41 @@ import edu.eci.arsw.bbp.PiThread;
 ///  </summary>
 public class PiDigits {
 
-    public static int maxValue = 10;
-
     private static int DigitsPerSum = 8;
     private static double Epsilon = 1e-17;
 
-    public static void main(String[] args) {
-        getDigitsPi(500, 2);
-    }
-
-    public static void getDigitsPi(int amount, int N){
-        int value = (amount/N);
-        int start= 0;
-        for (int i = 0; i < N; i ++) {
-            PiThread threadP = new PiThread();
-            threadP.setAB(start, value);
-            start += value;
-            threadP.start();
+    public static ArrayList<PiThread> getDigitsPi (int amount, int N) throws InterruptedException {
+        ArrayList<PiThread> threads = new ArrayList<>();
+        int module = (amount) % N;
+        int range = amount / N;
+        int threadStart = 0;
+        for(int i = 0;  i < N; i++){
+            if(module > 0){
+                range++;
+                module--;
+            }
+            PiThread piThread = new PiThread(threadStart, range);
+            threads.add(piThread);
+            piThread.start();
+            threadStart += range;
+            range = amount / N;
         }
+        /*int value = (amount/N);
+        System.out.println(value);
+        int comienzo= 0;
+        for (int i = 0; i < N; i ++) {
+            PiThread threadP = new PiThread(comienzo, value);
+            threads.add(threadP);
+            threadP.start();
+            comienzo += value;
+        }*/
+
+        for (PiThread t: threads) {
+            t.join();
+        }
+
+        return threads;
+
     }
 
 
@@ -126,7 +145,7 @@ public class PiDigits {
             //sb.append(hexChars[i]);
             sb.append(hexChars[i+1]);
         }
-        System.out.println(sb.toString());
+        //System.out.println(sb.toString());
         return sb.toString();
     }
 }

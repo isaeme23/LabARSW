@@ -8,14 +8,22 @@ public class PiThread extends Thread {
     private static int DigitsPerSum = 8;
     private static double Epsilon = 1e-17;
 
-    public int a;
-    public int b;
+    private static byte[] result;
+
+    public int start;
+    public int count;
 
     public int position;
 
+    public PiThread(int start, int count){
+        this.start = start;
+        this.count = count;
+    }
+
     @Override
     public void run() {
-        byte[] x = getDigitsPi(getA(), getB());
+        byte[] x = getDigitsPi(start, count);
+        setResult(x);
     }
 
     public static void main(String[] args) {
@@ -50,6 +58,7 @@ public class PiThread extends Thread {
         }
 
         bytesToHex(digits);
+
         return digits;
     }
 
@@ -104,27 +113,6 @@ public class PiThread extends Thread {
         return result;
     }
 
-    public void setA(int a) {
-        this.a = a;
-    }
-
-    public int getA() {
-        return a;
-    }
-
-    public void setB(int b) {
-        this.b = b;
-    }
-
-    public int getB() {
-        return b;
-    }
-
-    public void setAB(int a, int b) {
-        setA(a);
-        setB(b);
-    }
-
     public int getPosition() {
         return position;
     }
@@ -146,7 +134,15 @@ public class PiThread extends Thread {
             //sb.append(hexChars[i]);
             sb.append(hexChars[i+1]);
         }
-        System.out.println(sb.toString());
+        //System.out.println(sb.toString());
         return sb.toString();
+    }
+
+    public byte[] getResult() {
+        return result;
+    }
+
+    public static void setResult(byte[] result) {
+        PiThread.result = result;
     }
 }
