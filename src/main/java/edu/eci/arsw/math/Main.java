@@ -5,16 +5,14 @@
  */
 package edu.eci.arsw.math;
 
-import java.util.ArrayList;
-
 /**
  *
- * @author hcadavid
+ * @author Isabella Manrique, Santiago Ospina
  */
 public class Main {
 
     public static void main(String a[]) throws InterruptedException {
-        System.out.println(bytesToHex(PiDigits.getDigitsPi(0, 100, 3)));
+        System.out.println(bytesToHex(PiDigits.getDigits(0, 100, 3)));
     }
 
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();

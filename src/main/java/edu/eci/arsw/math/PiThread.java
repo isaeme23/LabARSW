@@ -120,16 +120,4 @@ public class PiThread extends Thread {
     public byte[] getResult() {
         return result;
     }
-
-    public int getStart() {
-        return start;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setResult(byte[] result) {
-        this.result = result;
-    }
 }
