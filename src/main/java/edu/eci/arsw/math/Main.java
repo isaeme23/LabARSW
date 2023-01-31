@@ -14,10 +14,7 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String a[]) throws InterruptedException {
-        ArrayList<PiThread> P = PiDigits.getDigitsPi(0, 500, 3);
-        for (PiThread t :P){
-            System.out.println(bytesToHex(t.getResult()));
-        }
+        System.out.println(bytesToHex(PiDigits.getDigitsPi(0, 100, 3)));
     }
 
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();

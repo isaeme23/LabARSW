@@ -10,15 +10,21 @@ import java.util.ArrayList;
 ///  </summary>
 public class PiDigits {
 
-    private static int DigitsPerSum = 8;
-    private static double Epsilon = 1e-17;
+    //private static int DigitsPerSum = 8;
+    //private static double Epsilon = 1e-17;
 
-    public static ArrayList<PiThread> getDigitsPi (int start, int amount, int N) throws InterruptedException {
+    public static byte[] getDigitsPi (int start, int amount, int n) throws InterruptedException {
+        ArrayList<PiThread> threads =  createThreads(start, amount, n);
+        joinThreads(threads);
+        return concatenateResults(threads, amount, start);
+    }
+
+    public static ArrayList<PiThread> createThreads(int start, int amount, int n){
         ArrayList<PiThread> threads = new ArrayList<>();
-        int module = (amount) % N;
-        int range = (amount / N);
+        int module = (amount) % n;
+        int range = (amount / n);
         int threadStart = start;
-        for(int i = 0;  i < N; i++){
+        for(int i = 0;  i < n; i++){
             if(module > 0){
                 range++;
                 module--;
@@ -27,19 +33,28 @@ public class PiDigits {
             threads.add(piThread);
             piThread.start();
             threadStart = threadStart + range;
-            range = amount / N;
+            range = amount / n;
         }
+        return threads;
+    }
 
+    public static void joinThreads(ArrayList<PiThread> threads) throws InterruptedException {
         for (PiThread t: threads) {
             t.join();
         }
+    }
 
-        return threads;
-
+    public static byte[] concatenateResults(ArrayList<PiThread> threads, int amount, int start){
+        byte[] result = new byte[amount];
+        for(PiThread t: threads){
+            System.arraycopy(t.getResult(), 0, result, start, t.getResult().length);
+            start+=t.getResult().length;
+        }
+        return result;
     }
 
 
-    public static byte[] getDigits(int start, int count) {
+    /*public static byte[] getDigits(int start, int count) {
         if (start < 0) {
             throw new RuntimeException("Invalid Interval");
         }
@@ -118,23 +133,5 @@ public class PiDigits {
         }
 
         return result;
-    }
-
-    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
-
-    public static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
-        for (int j = 0; j < bytes.length; j++) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        StringBuilder sb=new StringBuilder();
-        for (int i=0;i<hexChars.length;i=i+2){
-            //sb.append(hexChars[i]);
-            sb.append(hexChars[i+1]);
-        }
-        //System.out.println(sb.toString());
-        return sb.toString();
-    }
+    }*/
 }
