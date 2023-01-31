@@ -1,17 +1,11 @@
-package edu.eci.arsw.bbp;
-
-import edu.eci.arsw.math.PiDigits;
-import edu.eci.arsw.threads.CountThread;
+package edu.eci.arsw.math;
 
 public class PiThread extends Thread {
-
     private static int DigitsPerSum = 8;
     private static double Epsilon = 1e-17;
-
-    private static byte[] result;
-
-    public int start;
-    public int count;
+    private byte[] result;
+    public final int  start;
+    public final int count;
 
     public int position;
 
@@ -22,13 +16,7 @@ public class PiThread extends Thread {
 
     @Override
     public void run() {
-        byte[] x = getDigitsPi(start, count);
-        setResult(x);
-    }
-
-    public static void main(String[] args) {
-        CountThread obj = new CountThread();
-        obj.start();
+        result = getDigitsPi(start, count);
     }
 
     public static byte[] getDigitsPi(int start, int count) {
@@ -57,7 +45,6 @@ public class PiThread extends Thread {
             digits[i] = (byte) sum;
         }
 
-        bytesToHex(digits);
 
         return digits;
     }
@@ -113,14 +100,6 @@ public class PiThread extends Thread {
         return result;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
     public static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
@@ -142,7 +121,15 @@ public class PiThread extends Thread {
         return result;
     }
 
-    public static void setResult(byte[] result) {
-        PiThread.result = result;
+    public int getStart() {
+        return start;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setResult(byte[] result) {
+        this.result = result;
     }
 }

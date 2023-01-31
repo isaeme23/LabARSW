@@ -5,10 +5,7 @@
  */
 package edu.eci.arsw.math;
 
-import edu.eci.arsw.bbp.PiThread;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  *
@@ -17,7 +14,7 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String a[]) throws InterruptedException {
-        ArrayList<PiThread> P = PiDigits.getDigitsPi(100, 2);
+        ArrayList<PiThread> P = PiDigits.getDigitsPi(0, 500, 3);
         for (PiThread t :P){
             System.out.println(bytesToHex(t.getResult()));
         }

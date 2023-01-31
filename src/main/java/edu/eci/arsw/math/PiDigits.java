@@ -1,7 +1,5 @@
 package edu.eci.arsw.math;
 
-import edu.eci.arsw.bbp.PiThread;
-
 import java.util.ArrayList;
 
 ///  <summary>
@@ -15,11 +13,11 @@ public class PiDigits {
     private static int DigitsPerSum = 8;
     private static double Epsilon = 1e-17;
 
-    public static ArrayList<PiThread> getDigitsPi (int amount, int N) throws InterruptedException {
+    public static ArrayList<PiThread> getDigitsPi (int start, int amount, int N) throws InterruptedException {
         ArrayList<PiThread> threads = new ArrayList<>();
         int module = (amount) % N;
-        int range = amount / N;
-        int threadStart = 0;
+        int range = (amount / N);
+        int threadStart = start;
         for(int i = 0;  i < N; i++){
             if(module > 0){
                 range++;
@@ -28,18 +26,9 @@ public class PiDigits {
             PiThread piThread = new PiThread(threadStart, range);
             threads.add(piThread);
             piThread.start();
-            threadStart += range;
+            threadStart = threadStart + range;
             range = amount / N;
         }
-        /*int value = (amount/N);
-        System.out.println(value);
-        int comienzo= 0;
-        for (int i = 0; i < N; i ++) {
-            PiThread threadP = new PiThread(comienzo, value);
-            threads.add(threadP);
-            threadP.start();
-            comienzo += value;
-        }*/
 
         for (PiThread t: threads) {
             t.join();
