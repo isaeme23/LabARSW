@@ -14,11 +14,11 @@ Entregar: Fuentes y documento PDF con las respuestas.
 	1. Cree 3 hilos de tipo CountThread, asignándole al primero el intervalo [0..99], al segundo [99..199], y al tercero [200..299].
 	2. Inicie los tres hilos con 'start()'.
 	3. Ejecute y revise la salida por pantalla.
-   ![img.png](img/img.png)
+
 
 	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
      
-   ![img_1.png](img/img_1.png)
+
    
    Reemplazando el start() por un run(), vemos como con el run() los hilos parecen estar ejecutandose de manera secuencial mientras que con el start parecen ejecutarse al tiempo.
    
